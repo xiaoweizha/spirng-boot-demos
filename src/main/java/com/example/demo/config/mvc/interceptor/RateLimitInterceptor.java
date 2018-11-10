@@ -3,7 +3,6 @@ package com.example.demo.config.mvc.interceptor;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.common.dto.BaseResponse;
 import com.google.common.util.concurrent.RateLimiter;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,7 +19,6 @@ import java.io.OutputStreamWriter;
 @Component
 public class RateLimitInterceptor implements HandlerInterceptor {
     @Resource(name = "stringRedisTemplate")
-    private RedisTemplate<String, String> redisTemplate;
 //    private static final RateLimiter rateLimiter = RateLimiter.create(0.5);//1秒钟最多允许0.5次服务调用 -- 测试用
     private static final RateLimiter rateLimiter = RateLimiter.create(1000);//1秒钟最多允许1000次服务调用
     @Override
