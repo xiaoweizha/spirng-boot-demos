@@ -1,8 +1,5 @@
 package com.example.demo.config.mvc;
-import com.example.demo.config.mvc.interceptor.RepeatSubmitInterceptor;
-import com.example.demo.config.mvc.interceptor.RequestTimeConsumingInterceptor;
-import com.example.demo.config.mvc.interceptor.TokenInterceptor;
-import com.example.demo.config.mvc.interceptor.TooMuchSubmitInterceptor;
+import com.example.demo.config.mvc.interceptor.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,6 +13,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
     @Resource
     private TooMuchSubmitInterceptor tooMuchSubmitInterceptor;
+    @Resource
+    private RateLimitInterceptor rateLimitInterceptor;
     /**
      * 添加拦截器，排出不拦截的静态资源
      * @param registry registry
@@ -32,6 +31,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/swagger**/**")
                 .excludePathPatterns("/v2/api-docs");
         registry.addInterceptor(tooMuchSubmitInterceptor)
+                .excludePathPatterns("/swagger**/**")
+                .excludePathPatterns("/v2/api-docs");
+        registry.addInterceptor(rateLimitInterceptor)
                 .excludePathPatterns("/swagger**/**")
                 .excludePathPatterns("/v2/api-docs");
     }
