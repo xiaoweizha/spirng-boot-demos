@@ -1,5 +1,6 @@
 package com.example.demo.config.filter;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.owasp.esapi.ESAPI;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (value != null) {
             //避免编码xss攻击
             value = ESAPI.encoder().canonicalize(value);
+            value = StringEscapeUtils.escapeHtml(value);
             //避免输入null字符
             value = value.replaceAll("\0","");
 
