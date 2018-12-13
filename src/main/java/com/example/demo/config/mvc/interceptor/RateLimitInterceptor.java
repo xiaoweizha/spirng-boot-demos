@@ -8,7 +8,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStreamWriter;
@@ -18,9 +17,9 @@ import java.io.OutputStreamWriter;
  */
 @Component
 public class RateLimitInterceptor implements HandlerInterceptor {
-    @Resource(name = "stringRedisTemplate")
 //    private static final RateLimiter rateLimiter = RateLimiter.create(0.5);//1秒钟最多允许0.5次服务调用 -- 测试用
-    private static final RateLimiter rateLimiter = RateLimiter.create(1000);//1秒钟最多允许1000次服务调用
+    private final RateLimiter rateLimiter = RateLimiter.create(1000);//1秒钟最多允许1000次服务调用
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         if(!(o instanceof HandlerMethod)) return true;
